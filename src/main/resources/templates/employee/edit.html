@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.0.0-beta3/css/bootstrap.min.css}" />
+
+    <!-- Include your custom styles -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="container">
+    <h1>Edit Employee</h1>
+    <form th:action="@{/employees/edit/{id}(id=${employee.id})}" th:object="${employee}" method="post">
+        <!-- Form fields -->
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+    <a class="btn btn-secondary" href="/employees">Back to List</a>
+</div>
+</body>
+</html>
