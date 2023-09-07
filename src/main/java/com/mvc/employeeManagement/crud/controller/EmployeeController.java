@@ -26,19 +26,20 @@ public class EmployeeController {
 
     @GetMapping
     public String listEmployees(Model model) {
-       List<Employee> employeeList = employeeService.getAllEmployees();
-       model.addAttribute("employees",employeeList);
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        model.addAttribute("employees", employeeList);
         return "employee/list";
     }
 
     @GetMapping("/employee/{id}")
-    public String listEmployees(@PathVariable Long id,Model model) {
-       Employee employee = Optional.ofNullable(employeeService.getEmployeeById(id)).orElseThrow(()-> new EmployeeNotFoundException(id));
+    public String getEmployeeDetails(@PathVariable Long id, Model model) {
+        Employee employee = Optional.ofNullable(employeeService.getEmployeeById(id)).orElseThrow(() -> new EmployeeNotFoundException(id));
 
-       model.addAttribute("employee",employee);
+        model.addAttribute("employee", employee);
 
-       return Constants.REDIRECT_URL;
+        return "employee/details";
     }
+
 
     @PostMapping("/add")
     public String addEmployees(@ModelAttribute @Valid Employee employee, BindingResult bindingResult, RedirectAttributes redirectAttributes){
@@ -47,7 +48,7 @@ public class EmployeeController {
         }
 
         employeeService.saveEmployee(employee);
-        redirectAttributes.addFlashAttribute("message","Employee Added Successfully");
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE,"Employee Added Successfully");
         return Constants.REDIRECT_URL;
 
     }
@@ -60,7 +61,7 @@ public class EmployeeController {
 
         employee.setId(id);
         employeeService.saveEmployee(employee);
-        redirectAttributes.addFlashAttribute("message", "Employee updated successfully!");
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "Employee updated successfully!");
         return Constants.REDIRECT_URL;
     }
 
@@ -70,7 +71,7 @@ public class EmployeeController {
         Optional.ofNullable(employeeService.getEmployeeById(id)).orElseThrow(()->new EmployeeNotFoundException(id));
 
         employeeService.deleteEmployee(id);
-        redirectAttributes.addFlashAttribute("message", "Employee Successfully Deleted");
+        redirectAttributes.addFlashAttribute(Constants.MESSAGE, "Employee Successfully Deleted");
         return Constants.REDIRECT_URL;
 
     }
